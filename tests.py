@@ -57,5 +57,38 @@ class Tests(unittest.TestCase):
             for j in range(num_rows):
                 self.assertFalse(m._Maze__cells[i][j].visited)
 
+    def test_solve_returns_true(self):
+        m = Maze(0, 0, 5, 5, 10, 10)
+        self.assertTrue(m.solve())
+
+    def test_solve_single_cell(self):
+        m = Maze(0, 0, 1, 1, 10, 10)
+        self.assertTrue(m.solve())
+
+    def test_solve_rectangular(self):
+        m = Maze(0, 0, 3, 7, 10, 10)
+        self.assertTrue(m.solve())
+
+    def test_solve_marks_cells_visited(self):
+        m = Maze(0, 0, 4, 4, 10, 10)
+        m.solve()
+        visited_count = 0
+        for i in range(4):
+            for j in range(4):
+                if m._Maze__cells[i][j].visited:
+                    visited_count += 1
+        self.assertGreater(visited_count, 0)
+
+    def test_solve_goal_cell_visited(self):
+        cols = 5
+        rows = 5
+        m = Maze(0, 0, rows, cols, 10, 10)
+        m.solve()
+        self.assertTrue(m._Maze__cells[cols - 1][rows - 1].visited)
+
+    def test_solve_with_seed(self):
+        m = Maze(0, 0, 6, 6, 10, 10, seed=10)
+        self.assertTrue(m.solve())
+
 if __name__ == "__main__":
     unittest.main()
